@@ -1,0 +1,101 @@
+<html>
+  <head>
+    <style>
+      body{
+        background-color: rgba(118, 224, 76, 0.781);
+      }
+      .itemTable {
+        font-size: 18pxpx;
+        color: blue;
+      }
+
+      .removeButton {
+        color: rgb(91, 204, 21);
+      }
+      table, th, td {
+  border: 2px solid rgb(41, 30, 30);
+}
+table {
+  border-spacing: 30px;
+}
+    </style>
+  </head>
+  <body >
+   <br>
+    <center><h4 style=" font-size: 30px; color: rgb(49, 7, 138); font-weight: bolder;">TRACK OF ITEMS</h4></center>
+
+ 
+    <br>
+    <center>
+    <input type="text" id="nameInput" placeholder="Item name" style="color: rgb(55, 35, 73);"></input>
+    <input type="text" id="priceInput" placeholder="Item price" style="color: rgb(42, 28, 55);"></input>
+    <button onclick="addItem()">Add Item</button></center>
+
+
+    <center><table id="itemTable" style="color: rgb(194, 28, 28); border: 1px; ">
+      <tr>
+        <th>Item Name</th> 
+
+        <th> Item Price</th>
+
+        <th>Date</th>
+        
+        <th>Action</th>
+      </tr>
+    </table>
+</center>
+    <script >
+      let items = [];
+
+      function addItem() {
+        let name = document.getElementById("nameInput").value;
+        let price = document.getElementById("priceInput").value;
+        let date = new Date().toLocaleString();
+
+        items.push({
+          name: name,
+          price: price,
+          date: date
+        });
+
+        updateDisplay();
+      }
+
+      function removeItem(date, index) {
+        items = items.filter(item => item.date !== date || items.indexOf(item) !== index);
+        updateDisplay();
+      }
+
+      function updateDisplay() {
+        let itemTable = document.getElementById("itemTable");
+
+        // Clear the existing table
+        itemTable.innerHTML = `
+          <tr>
+            <th>Item Name</th>
+            <th>Item Price</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        `;
+
+        // Add a row for each item
+        for (let i = 0; i < items.length; i++) {
+          let item = items[i];
+          let date = item.date;
+
+          let itemRow = itemTable.insertRow();
+          itemRow.innerHTML = `
+            <td class="itemTable">${item.name}</td>
+            <td class="itemTable">${item.price}</td>
+            <td class="itemTable">${date}</td>
+            <td>
+              <button onclick="removeItem('${date}', ${i})" class="removeButton">Remove</button>
+            </td>
+          `;
+        }
+      }
+    </script>
+  </body>
+</html>
+
